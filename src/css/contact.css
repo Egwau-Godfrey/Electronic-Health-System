@@ -1,0 +1,78 @@
+/* contact.css */
+
+.ContactContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.contact-info-section,
+.contact-form-section,
+.map-section {
+    margin-bottom: 40px;
+}
+
+h1, h2, h3 {
+    color: #3498db;
+}
+
+.contact-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.contact-info div {
+    text-align: left;
+}
+
+.contact-info h3 {
+    font-size: 1.5em;
+}
+
+.contact-form-section form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-form-section label {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.contact-form-section textarea,
+.contact-form-section input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.contact-form-section textarea {
+    resize: vertical;
+}
+
+.contact-form-section button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 12px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+
+.map-placeholder {
+    height: 200px;
+    background-color: #f2f2f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    color: #777;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}

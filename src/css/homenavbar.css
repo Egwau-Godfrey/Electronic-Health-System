@@ -1,0 +1,65 @@
+/* home.css */
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.Navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #3498db;
+    padding: 1em;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.Navbar a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.5em;
+    transition: color 0.3s ease;  /* Smooth transition for color change */
+}
+
+.Navbar a:hover {
+    color: #bdc3c7;  /* Light gray color on hover */
+}
+
+.Navigation {
+    display: flex;
+    align-items: center;
+}
+
+.Navigation li {
+    margin-right: 20px;
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 768px) {
+    .Navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .Navigation {
+        margin-top: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .Navigation li {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
