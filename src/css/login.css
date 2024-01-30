@@ -1,0 +1,102 @@
+/* login.css */
+
+.CardContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.Card {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #3498db; /* Adjust the color as needed */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/* Styling for general input fields */
+.general-input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 12px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+
+.login-options {
+    margin-top: 20px;
+}
+
+.login-options p {
+    margin: 10px 0;
+}
+
+.login-options a {
+    color: #3498db;
+}
+
+.google-login {
+    background-color: #dd4b39;
+    color: #fff;
+    padding: 12px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+
+.password-input {
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+#password {
+    border: none;
+    font-size: 1em;
+    padding: 10px;
+    width: calc(100%);
+    border-radius: 5px;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #3498db;
+    font-size: 0.9em;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+}

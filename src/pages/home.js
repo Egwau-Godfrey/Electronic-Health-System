@@ -18,7 +18,7 @@ function Homepage() {
                         className="hero-image"
                     />
                     <div className="hero-content">
-                        <h1>Revolutionizing Healthcare with Our Electronic Health System</h1>
+                        <h1>Revolutionizing Healthcare with Our Electronic Health Records System</h1>
                         <p>Enhancing accessibility, collaboration, and patient outcomes for a healthier nation.</p>
                     </div>
                 </section>
