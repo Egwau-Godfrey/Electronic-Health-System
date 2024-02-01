@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import HomeNavbar from "../components/home_nav_bar";
+import { storage } from '../firebase/config.js'
+import { ref, getDownloadURL } from 'firebase/storage';
 import "../css/about.css";  // Import the CSS file for styling
 
 function About() {
+    const [vector2ImageURL, setVector2ImageURL] = useState('');
+    const [vector3ImageURL, setVector3ImageURL] = useState('');
+
+    useEffect(() => {
+        const getImageURLs = async () => {
+            try {
+                const vector2ImageRef = ref(storage, 'vector2.svg');
+                const vector3ImageRef = ref(storage, 'vector3.svg');
+    
+                const vector2URL = await getDownloadURL(vector2ImageRef);
+                const vector3URL = await getDownloadURL(vector3ImageRef);
+
+                setVector2ImageURL(vector2URL);
+                setVector3ImageURL(vector3URL);
+            } catch(error) {
+                console.error('Error fetching image URLs from Firebase Storage', error);
+                alert('Error Fetching Images')
+            }
+        };
+        getImageURLs()
+    }, []);
+
     return (
         <>
             <div className="NavArea">
@@ -21,8 +45,8 @@ function About() {
                 </div>
 
                 <div className="about-section">
-                    {/* Placeholder for vector image */}
-                    <img src="/images/vector2.svg" alt="Efficient Collaboration Icon" />
+                    {/* Display image fetched from Firebase Storage */}
+                    <img src={vector2ImageURL} alt="Efficient Collaboration Icon" />
 
                     <h2>Our Mission</h2>
                     <p>
@@ -33,8 +57,8 @@ function About() {
                 </div>
 
                 <div className="about-section">
-                    {/* Placeholder for vector image */}
-                    <img src="/images/vector3.svg" alt="Real-time Analytics Icon" />
+                    {/* Display image fetched from Firebase Storage */}
+                    <img src={vector3ImageURL} alt="Real-time Analytics Icon" />
 
                     <h2>Why We Exist</h2>
                     <p>

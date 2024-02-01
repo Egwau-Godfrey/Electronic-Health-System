@@ -19,7 +19,7 @@ function PatientLogin() {
                     <h1>Patient Login</h1>
                     <form>
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" name="email"  className="general-input" required />
+                        <input type="email" id="email" name="email"  className="general-input" placeholder='Enter Email' required />
 
                         <label htmlFor="password">Password</label>
                         <div className="password-input">
@@ -27,6 +27,7 @@ function PatientLogin() {
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 name="password"
+                                placeholder='Enter Password'
                                 required
                             />
                             <span className="toggle-password" onClick={togglePasswordVisibility}>

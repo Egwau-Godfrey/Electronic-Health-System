@@ -21,10 +21,10 @@ function DoctorLogin() {
                     <h1>Doctor Login</h1>
                     <form>
                         <label htmlFor="hospitalID">Hospital ID</label>
-                        <input type="text" id="hospitalID" name="hospitalNumber"  className="general-input" required />
+                        <input type="text" id="hospitalID" name="hospitalNumber"  className="general-input" placeholder='Enter HospitalID' required />
 
                         <label htmlFor="doctorID">Doctor ID</label>
-                        <input type="text" id="doctorID" name="doctorID"  className="general-input" required />
+                        <input type="text" id="doctorID" name="doctorID"  className="general-input" placeholder='Enter DoctorID' required />
 
                         <label htmlFor="password">Password</label>
                         <div className="password-input">
@@ -32,6 +32,7 @@ function DoctorLogin() {
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 name="password"
+                                placeholder='Enter Password'
                                 required
                             />
                             <span className="toggle-password" onClick={togglePasswordVisibility}>

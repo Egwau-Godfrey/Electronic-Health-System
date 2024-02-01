@@ -19,10 +19,10 @@ function LabTechLogin() {
                     <h1>Lab Technician Login</h1>
                     <form>
                         <label htmlFor="hospitalID">Hospital ID</label>
-                        <input type="text" id="hospitalID" name="hospitalNumber"  className="general-input" required />
+                        <input type="text" id="hospitalID" name="hospitalNumber"  className="general-input" placeholder='Enter HospitalID' required />
 
                         <label htmlFor="labTechID">Lab Tech ID</label>
-                        <input type="text" id="labTechID" name="labTechID"  className="general-input" required />
+                        <input type="text" id="labTechID" name="labTechID"  className="general-input" placeholder='Enter LabTechID' required />
 
                         <label htmlFor="password">Password</label>
                         <div className="password-input">
@@ -30,6 +30,7 @@ function LabTechLogin() {
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 name="password"
+                                placeholder='Enter Password'
                                 required
                             />
                             <span className="toggle-password" onClick={togglePasswordVisibility}>

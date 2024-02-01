@@ -19,7 +19,7 @@ function OAdminLogin() {
                     <h1>Overall Admin Login</h1>
                     <form>
                         <label htmlFor="adminID">Admin ID</label>
-                        <input type="text" id="adminID" name="adminID"  className="general-input" required />
+                        <input type="text" id="adminID" name="adminID"  className="general-input" placeholder='Enter AdminID' required />
 
                         <label htmlFor="password">Password</label>
                         <div className="password-input">
@@ -27,6 +27,7 @@ function OAdminLogin() {
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 name="password"
+                                placeholder='Enter Password'
                                 required
                             />
                             <span className="toggle-password" onClick={togglePasswordVisibility}>
