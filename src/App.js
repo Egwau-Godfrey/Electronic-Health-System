@@ -8,6 +8,8 @@ import DoctorLogin from './pages/doctorLogin';
 import LabTechLogin from './pages/labtechLogin';
 import HAdminLogin from './pages/hospitalAdminLogin';
 import OAdminLogin from './pages/overralAdminLogin';
+import Patients from './pages/patient';
+import PatientSignup from './pages/patientSignup';
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
         <Route path="/login/lab" element={<LabTechLogin />} />
         <Route path="/login/HAdmin" element={<HAdminLogin />} />
         <Route path="/login/OAdmin" element={<OAdminLogin />} />
+        <Route path="/patient" element={<Patients />} />
+        <Route path="/register" element={<PatientSignup />} />
       </Routes>
     </BrowserRouter>
   );

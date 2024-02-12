@@ -6,10 +6,23 @@ import "../css/login.css"; // Import the CSS file for styling
 
 function DoctorLogin() {
     const [showPassword, setShowPassword] = useState(false);
+    const [hospitalID, setHospitalID] = useState('');
+    const [doctorID, setDoctorID] = useState('');
+    const [password, setPassword] = useState('');
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
+    const handleLogin = async (e) => {
+
+        try {
+
+        } catch(error) {
+            alert("Failed to Login");
+            console.error('Login Failed', error);
+        }
+    }
 
     return (
         <>
@@ -19,12 +32,12 @@ function DoctorLogin() {
             <div className="CardContainer">
                 <div className="Card">
                     <h1>Doctor Login</h1>
-                    <form>
+                    <form onSubmit={handleLogin}>
                         <label htmlFor="hospitalID">Hospital ID</label>
-                        <input type="text" id="hospitalID" name="hospitalNumber"  className="general-input" placeholder='Enter HospitalID' required />
+                        <input type="text" id="hospitalID" name="hospitalNumber"  className="general-input" placeholder='Enter HospitalID' onChange={(text) => setHospitalID(text.target.value)} required />
 
                         <label htmlFor="doctorID">Doctor ID</label>
-                        <input type="text" id="doctorID" name="doctorID"  className="general-input" placeholder='Enter DoctorID' required />
+                        <input type="text" id="doctorID" name="doctorID"  className="general-input" placeholder='Enter DoctorID' onChange={(text) => setDoctorID(text.target.value)} required />
 
                         <label htmlFor="password">Password</label>
                         <div className="password-input">
@@ -33,6 +46,7 @@ function DoctorLogin() {
                                 id="password"
                                 name="password"
                                 placeholder='Enter Password'
+                                onChange={(text) => setPassword(text.target.value)}
                                 required
                             />
                             <span className="toggle-password" onClick={togglePasswordVisibility}>
