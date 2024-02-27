@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useFirestore } from '../firebase/config';
+import { getDocs, query, collection, where, doc } from 'firebase/firestore';
 import HomeNavbar from "../components/home_nav_bar";
-import "../css/login.css"; // Import the CSS file for styling
+import "../css/login.css"; 
+import { useNavigate } from 'react-router-dom';
 
 function LabTechLogin() {
     const [showPassword, setShowPassword] = useState(false);
@@ -8,16 +11,47 @@ function LabTechLogin() {
     const [labTechID, setLabTechID] = useState('');
     const [password, setPassword] = useState('');
 
+    const navigate = useNavigate();
+
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
     const handleLogin = async (e) => {
+        e.preventDefault();
 
         try {
 
-        } catch(error) {
-            alert("Failed to Login");
+            // Query the Workers collection for lab technician
+            const workersCollection = collection(useFirestore, 'Workers');
+            const workersQuery = query(workersCollection,
+                where('hospitalID', '==', hospitalID),
+                where('LabTechID', '==', labTechID),
+                where('password', '==', password)
+            );
+
+            // Get the matching documents
+            const workerDocs = await getDocs(workersQuery);
+
+            // Check if any matching documents exist
+            if (workerDocs.docs.length > 0) {
+                // Successful login
+                console.log('Login successful');
+
+                const WorkerDocID = workerDocs.docs[0].id;
+                
+                sessionStorage.setItem('userToken', WorkerDocID);
+
+                navigate('/labtech') // Redirect to lab technician dashboard or appropriate route
+
+            } else {
+                // Invalid credentials
+                alert('Invalid credentials');
+                console.log('Login failed: Invalid credentials');
+            }
+
+        } catch (error) {
+            alert('Failed to Login');
             console.error('Login Failed', error);
         }
     }

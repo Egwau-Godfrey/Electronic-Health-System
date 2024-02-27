@@ -10,6 +10,10 @@ import HAdminLogin from './pages/hospitalAdminLogin';
 import OAdminLogin from './pages/overralAdminLogin';
 import Patients from './pages/patient';
 import PatientSignup from './pages/patientSignup';
+import Doctors from './pages/doctor';
+import LabTech from './pages/labtech';
+import HAdmins from './pages/hadmin';
+import OAdmins from './pages/oadmin';
 
 function App() {
   return (
@@ -26,6 +30,10 @@ function App() {
         <Route path="/login/OAdmin" element={<OAdminLogin />} />
         <Route path="/patient" element={<Patients />} />
         <Route path="/register" element={<PatientSignup />} />
+        <Route path="/doctors" element={<Doctors />} />
+        <Route path="/labtech" element={<LabTech />} />
+        <Route path="/hadmin" element={<HAdmins />} />
+        <Route path="/oadmin" element={<OAdmins />} />
       </Routes>
     </BrowserRouter>
   );

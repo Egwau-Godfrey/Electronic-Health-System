@@ -1,10 +1,11 @@
 // doctorLogin.js
 
 import React, { useState } from 'react';
-import HomeNavbar from "../components/home_nav_bar";
-import "../css/login.css"; // Import the CSS file for styling
 import { useFirestore } from '../firebase/config';
-import { getDocs, getDoc, where, query, collection } from 'firebase/firestore';
+import { getDocs, query, collection, where, doc } from 'firebase/firestore';
+import HomeNavbar from "../components/home_nav_bar";
+import "../css/login.css";
+import { useNavigate } from 'react-router-dom';
 
 function DoctorLogin() {
     const [showPassword, setShowPassword] = useState(false);
@@ -12,61 +13,50 @@ function DoctorLogin() {
     const [doctorID, setDoctorID] = useState('');
     const [password, setPassword] = useState('');
 
+    const navigate = useNavigate();
+
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
     const handleLogin = async (e) => {
         e.preventDefault();
-    
+
         try {
-          // Create a query for the worker 
-          const workerQuery = query(
-            collection(useFirestore, 'Workers'), 
-            where('doctorID', '==', doctorID) // Filter by the entered doctorID
-          );
-    
-          const workerQuerySnapshot = await getDocs(workerQuery);
-           
-          console.log("Hello");
-          console.log(workerQuerySnapshot);
 
-          if (workerQuerySnapshot.empty) {
-            alert('Doctor not found');
-            return; 
-          }
-    
-          // Assuming only one doctor should match the doctorID
-          workerQuerySnapshot.forEach((doc) => {
-            console.log(doc.id, '=>', doc.data());
-            });
-          const workerDoc = workerQuerySnapshot.docs[0]; // Get the matching document
-          const workerData = workerDoc.data();
+            // Query the Workers collection
+            const workersCollection = collection(useFirestore, 'Workers');
+            const workersQuery = query(workersCollection,
+                where('hospitalID', '==', hospitalID),
+                where('doctorID', '==', doctorID),
+                where('password', '==', password)
+            );
 
-          
-    
-          // Fetch the referenced hospital data
-          const hospitalDocRef = workerData.hospitalID;
-          const hospitalDocSnapshot = await getDoc(hospitalDocRef);
-    
-          if (hospitalDocSnapshot.exists()) {
-            // Validate credentials (with correct hospital ID)
-            if (hospitalDocSnapshot.id === hospitalID && workerData.password === password) {
-              console.log('Login Successful');
-              alert("Login Successful");
-              // ... Handle successful login 
+            // Get the matching documents
+            const workerDocs = await getDocs(workersQuery);
+
+            // Check if any matching documents exist
+            if (workerDocs.docs.length > 0) {
+                // Successful login, you can redirect or perform other actions here
+                console.log('Login successful');
+
+                const WorkerDocID = workerDocs.docs[0].id;
+                
+                sessionStorage.setItem('userToken', WorkerDocID);
+
+                navigate('/doctors')
+                
             } else {
-              alert('Incorrect credentials');
+                // Invalid credentials
+                alert('Invalid credentials');
+                console.log('Login failed: Invalid credentials');
             }
-          } else {
-            alert('Hospital not found');
-          }
-    
+
         } catch (error) {
-          alert('Failed to Login');
-          console.error('Login Failed', error);
+            alert('Failed to Login');
+            console.error('Login Failed', error);
         }
-      }
+    }
 
     return (
         <>
@@ -78,10 +68,10 @@ function DoctorLogin() {
                     <h1>Doctor Login</h1>
                     <form onSubmit={handleLogin}>
                         <label htmlFor="hospitalID">Hospital ID</label>
-                        <input type="text" id="hospitalID" name="hospitalNumber"  className="general-input" placeholder='Enter HospitalID' onChange={(text) => setHospitalID(text.target.value)} required />
+                        <input type="text" id="hospitalID" name="hospitalNumber" className="general-input" placeholder='Enter HospitalID' onChange={(text) => setHospitalID(text.target.value)} required />
 
                         <label htmlFor="doctorID">Doctor ID</label>
-                        <input type="text" id="doctorID" name="doctorID"  className="general-input" placeholder='Enter DoctorID' onChange={(text) => setDoctorID(text.target.value.trim)} required />
+                        <input type="text" id="doctorID" name="doctorID" className="general-input" placeholder='Enter DoctorID' onChange={(text) => setDoctorID(text.target.value)} required />
 
                         <label htmlFor="password">Password</label>
                         <div className="password-input">
@@ -94,13 +84,12 @@ function DoctorLogin() {
                                 required
                             />
                             <span className="toggle-password" onClick={togglePasswordVisibility}>
-                                {showPassword ? 'Hide' : 'Show'}
+                                {showPassword ? '🙈' : '👁️'}
                             </span>
                         </div>
 
                         <button type="submit">Login</button>
                     </form>
-
                 </div>
             </div>
         </>
