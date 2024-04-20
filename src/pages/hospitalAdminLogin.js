@@ -37,7 +37,7 @@ function HAdminLogin() {
 
                 const HAdminDocID = adminDocs.docs[0].id; // Get Document ID
 
-                sessionStorage.setItem('userToken', HAdminDocID); 
+                sessionStorage.setItem('HAdminToken', HAdminDocID); 
 
                 navigate('/hadmin') // Redirect to admin dashboard or appropriate route
             } else {

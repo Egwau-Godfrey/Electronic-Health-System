@@ -88,10 +88,38 @@ function PatientSignup() {
       return;
     }
 
+    // create a patientID
+    function createPatientID() {
+      // Extract first letter from fname and lname
+      const firstLetterFname = fname.charAt(0);
+      const firstLetterLname = lname.charAt(0);
+
+      // Extract day, year, and month from dob
+      const dobDate = new Date(dob);
+      const day = dobDate.getDate();
+      const year = dobDate.getFullYear();
+      const month = dobDate.getMonth() + 1; // getMonth() returns month index starting from 0
+
+      // Combine all parts to create patientID
+      const patientID = `${firstLetterFname}${firstLetterLname}${day}${year}${month}`;
+      return patientID;
+    }
+
     try {
+      let patientID;
+
+      // Ensure fname, lname, and dob are set before calling createPatientID
+      if (fname && lname && dob) {
+        patientID = createPatientID();
+      } else {
+        console.log('User details not set');
+        return;
+      }
+
+
       const newUser = await createUserWithEmailAndPassword(auth, email, password);
 
-      const userData = { fname, lname, dob, email, phone };
+      const userData = { fname, lname, dob, email, phone, patientID };
       await setDoc(doc(collection(useFirestore, 'patients'), newUser.user.uid), userData);
 
       console.log('Signup successful');
@@ -110,6 +138,8 @@ function PatientSignup() {
       alert(errorMessage);
       console.log("Signup Failed", error);
     }
+
+  
   }
   
 
@@ -154,6 +184,8 @@ function PatientSignup() {
                 className="general-input" 
                 placeholder='Enter Date of Birth' 
                 onChange = {(text) => setDob(text.target.value)} 
+                min="1900-01-01"
+                max="2099-12-31"
                 required 
               /> 
               

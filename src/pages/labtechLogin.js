@@ -40,7 +40,7 @@ function LabTechLogin() {
 
                 const WorkerDocID = workerDocs.docs[0].id;
                 
-                sessionStorage.setItem('userToken', WorkerDocID);
+                sessionStorage.setItem('labuserToken', WorkerDocID);
 
                 navigate('/labtech') // Redirect to lab technician dashboard or appropriate route
 

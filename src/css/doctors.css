@@ -1,0 +1,396 @@
+* {
+    margin: 0em;
+    padding: 0em; 
+}
+
+/* Side bar */
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    background-color: #f5f5f5;
+    padding: 20px;
+    box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.2);
+    position: sticky;
+    top: 0;
+}
+
+.sidebar-item {
+    margin-bottom: 20px;
+}
+
+.sidebar-item a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+}
+
+.sidebar-item a:hover {
+    color: #007BFF;
+}
+/* Main content */
+.content {
+    flex-grow: 1; /* Allow content to grow */
+    padding: 20px;
+}
+
+/* Add Diagnosis */
+
+
+/* Add Diagnosis */
+.diagnosis-form-container {
+    width: 100%;
+    max-width: 1000px; /* Limit width for larger screens */
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    margin-right: 85px;
+}
+
+.form-row label {
+    flex-basis: 50%; /* Adjust for label widths */
+    margin-right: 10px;
+}
+
+.form-row input[type="text"],
+.form-row textarea {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.form-actions {
+    text-align: right; /* Or center, adjust as needed */
+}
+
+.button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px; /* Add spacing between buttons */
+}
+
+.button.primary {
+    background-color: #4CAF50; /* Example primary color */
+    color: white;
+}
+
+.form-row-form-actions{
+    margin-top: 1em;
+    margin-left: 22.5em;
+
+}
+
+.form-row-form-actions input {
+    width: 100px;
+}
+
+#doctorNotes {
+    width: 70%;
+    margin-top: 5.5em;
+}
+#diagnosis {
+    width: 70%;
+    margin-right: 0px;
+    
+}
+
+/* Patient Info */
+.patient-info-card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    width: 48%;
+}
+
+.patient-info-card h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.patient-info-card p {
+    margin: 0.5em 0;
+}
+
+/* Medical Record Card */
+.medical-record-card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    width: 100%;
+}
+
+.medical-record-details {
+    margin-top: 10px;
+    border-top: 1px solid #ddd; /* Add border to separate from collapsed view */
+    padding-top: 10px;
+    position: relative;
+    display: none; /* Initially hide details */
+}
+
+.medical-record-card.expanded .medical-record-details {
+    display: block; /* Show details when expanded */
+}
+
+.medical-record-card {
+    width: 44em;
+}
+
+.diagnosisTextArea {
+    width: 60%; /* Adjust width to leave space for the button */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none; /* Prevent resizing of textarea */
+    background-color: #f9f9f9; /* Optional: Set background color */
+    color: #333; /* Optional: Set text color */
+    font-size: 14px;
+    margin: 0% 2% 0% 2%;
+
+}
+
+.hdoctorNotes {
+    margin-right: 2%;
+}
+
+.diagnosisArea {
+    display: flex;
+    margin-top: 2%;
+}
+
+.doctorNotesArea {
+    display: flex;
+    margin-top: 2%;
+}
+
+.doctor-notes-container {
+    margin-bottom: 10px;
+}
+
+.doctor-notes-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.doctor-notes-container textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none; /* Prevent resizing of textarea */
+    background-color: #f9f9f9; /* Optional: Set background color */
+    color: #333; /* Optional: Set text color */
+    font-size: 14px; /* Optional: Adjust font size */
+}
+
+
+/* Add Diagnosis */
+
+
+
+
+#editButton {
+    background-color: #3498db;
+    height: 2.5em;
+}
+
+
+
+/* Media Queries */
+@media only screen and (min-width: 768px) {
+    /* Sidebar */
+    .sidebar {
+        width: 250px;
+    }
+
+    /* Add Diagnosis */
+    .diagnosis-form-container {
+        margin-left: 6em;
+    }
+
+    /* Patient Info */
+    .patient-info-card {
+        margin-left: 20em;
+    }
+
+    /* Medical Record Card */
+    .medical-record-card {
+        margin-left: 20em;
+        width: 44em;
+    }
+}
+
+
+/* View Employee */
+.employee-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 1px solid #ddd; /* Add border to the table */
+}
+
+.employee-table th, .employee-table td {
+    border: 1px solid #ddd; /* Add border to table cells */
+    padding: 12px; /* Increase padding for better spacing */
+    text-align: center; /* Align content to the center */
+}
+
+.employee-table th {
+    background-color: #f2f2f2; /* Background color for table header */
+}
+
+.employee-table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternate row background color */
+}
+
+.employee-table tr:hover {
+    background-color: #f0f0f0; /* Hover row background color */
+}
+
+.employee-table td[contenteditable=true]:focus {
+    outline: 2px solid #007BFF; /* Outline when cell is focused */
+}
+
+.employee-table th, .employee-table td {
+    min-width: 200px; /* Minimum width for table cells */
+}
+
+.employee-table td[contenteditable=true] {
+    cursor: text; /* Change cursor to text when editable */
+}
+
+.employee-table th:first-child,
+.employee-table td:first-child {
+    min-width: 150px; /* Adjust minimum width for the first column */
+}
+
+
+/* AddEmployee */
+
+.form-container {
+    width: 70%; /* Adjust width as needed */
+    margin: 0 auto; /* Center the form horizontally */
+    background-color: #fff; /* Form background color */
+    border-radius: 8px; /* Add border radius for rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    padding: 20px; /* Add padding inside the form */
+}
+
+.form-row {
+    margin-bottom: 20px;
+}
+
+.form-row label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#password {
+    border: 1px solid #ddd;
+}
+#password:focus {
+    outline: none; /* Remove outline on focus */
+    border-color: #007BFF; /* Change border color on focus */
+}
+
+.form-row input[type="text"],
+.form-row input[type="password"] {
+    width: 100%; /* Full width input */
+    padding: 10px; /* Padding for input fields */
+    border: 1px solid #ddd; /* Border for input fields */
+    border-radius: 5px; /* Border radius for input fields */
+    font-size: 14px; /* Font size for input fields */
+}
+
+.form-row input[type="text"]:focus,
+.form-row input[type="password"]:focus {
+    outline: none; /* Remove outline on focus */
+    border-color: #007BFF; /* Change border color on focus */
+}
+
+.button {
+    padding: 10px 30px;
+    margin-left: 31.8%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007BFF; /* Button background color */
+    color: #fff; /* Button text color */
+    font-size: 16px; /* Button font size */
+}
+
+.button.primary:hover {
+    background-color: #0056b3; /* Button hover background color */
+}
+
+.button.primary:focus {
+    outline: none; /* Remove outline on focus */
+}
+/* addEmployee.css */
+
+/* Dropdown styling */
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 16px;
+    color: #333;
+    appearance: none; /* Remove default arrow */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>'); /* Add custom arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 18px;
+}
+
+/* Dropdown arrow hover state */
+select:hover {
+    border-color: #007BFF;
+}
+
+/* Dropdown arrow focus state */
+select:focus {
+    outline: none;
+    border-color: #007BFF;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+/* Dropdown options */
+select option {
+    padding: 10px;
+    background-color: #fff;
+    color: #333;
+}
+
+.analytics-container {
+    padding: 20px;
+  }
+  
+  .chart-container {
+    width: 80%;
+    margin: 0 auto;
+  }
+  

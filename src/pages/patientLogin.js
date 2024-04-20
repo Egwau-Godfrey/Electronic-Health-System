@@ -23,6 +23,7 @@ function PatientLogin() {
 
             // Successful login, redirect or update state as needed
             console.log('Login successful!');
+            sessionStorage.setItem('patientLogInfo', user.uid);
             navigate('/patient');
         } catch (error) {
             console.error('Login failed:', error);
@@ -61,8 +62,6 @@ function PatientLogin() {
 
                     <div className="login-options">
                         <p>Don't have an account? <a href="/register">Create one</a></p>
-                        <p>or</p>
-                        <button className="google-login">Login with Google</button>
                     </div>
                 </div>
             </div>
