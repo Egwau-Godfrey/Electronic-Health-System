@@ -179,7 +179,7 @@ function PatientSignup() {
               <label htmlFor="dateOfBirth">Date of Birth</label>
               <input 
                 type="date" 
-                id="dateOfBirth" 
+                id="dateOfBirth"  
                 name="dateOfBirth" 
                 className="general-input" 
                 placeholder='Enter Date of Birth' 

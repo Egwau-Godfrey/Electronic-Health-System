@@ -5,54 +5,64 @@ import { useFirestore } from '../firebase/config';
 import "../css/doctors.css";
 
 function Patients() {
-    const [selectedItem, setSelectedItem] = useState('patientInfo');
+  const [selectedItem, setSelectedItem] = useState('patientInfo');
+  const [patientData, setPatientData] = useState(null);
+  const [medicalData, setMedicalData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    return(
-        <div>
-            <PatientMenuBar/>
+  const patientsID = sessionStorage.getItem('patientLogInfo');
 
-            <div className='container'>
-                <div id='sidebar' className='sidebar'>
-                    <div className='sidebar-item' onClick={() => setSelectedItem('patientInfo')}>
-                        <a href="#">Patient Info</a>
-                    </div>
-                    <div className='sidebar-item' onClick={() => setSelectedItem('history')}>
-                        <a href="#">History</a>
-                    </div>
-                </div>
-                <div className='content'>
-                    {selectedItem === 'patientInfo' && <PatientInfo />}
-                    {selectedItem === 'history' && <History />}
-                </div>
-            </div>
+  useEffect(() => {
+    if (!patientsID) return;
+
+    const fetchData = async () => {
+      const patientRef = doc(useFirestore, 'patients', patientsID);
+      const patientSnap = await getDoc(patientRef);
+
+      if (patientSnap.exists()) {
+        const medicalDataCollectionRef = collection(patientRef, 'medicalData');
+        const medicalDataSnapshot = await getDocs(medicalDataCollectionRef);
+        const medicalData = medicalDataSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+        setPatientData({ ...patientSnap.data(), medicalData });
+        setMedicalData(medicalData);
+        setLoading(false);
+      } else {
+        console.log("No such document!");
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [useFirestore, patientsID]);
+
+  if (loading) {
+    return <div>Loading your Data</div>;
+  }
+
+  return (
+    <div>
+      <PatientMenuBar />
+
+      <div className='container'>
+        <div id='sidebar' className='sidebar'>
+          <div className='sidebar-item' onClick={() => setSelectedItem('patientInfo')}>
+            <a href="#">Patient Info</a>
+          </div>
+          <div className='sidebar-item' onClick={() => setSelectedItem('history')}>
+            <a href="#">History</a>
+          </div>
         </div>
-    );
+        <div className='content'>
+          {selectedItem === 'patientInfo' && <PatientInfo patientData={patientData} />}
+          {selectedItem === 'history' && <History medicalData={medicalData} />}
+        </div>
+      </div>
+    </div>
+  );
 }
 
-const patientsID = sessionStorage.getItem('patientLogInfo');
- 
-function PatientInfo() {
-
-    const [patientData, setPatientData] = useState('');
-
-    useEffect(() => {
-        const fetchPatientData = async () => {
-            const patientRef = doc(useFirestore, 'patients', patientsID);
-            const patientSnap = await getDoc(patientRef);
-
-            if (patientSnap.exists()) {
-                setPatientData(patientSnap.data());
-            } else {
-                console.log("No such document!");
-            }
-        };
-
-        fetchPatientData();
-    }, [useFirestore, patientsID]);
-
-    if (!patientData) {
-        return <div>Search For Patient</div>;
-    }
+function PatientInfo({ patientData }) {
 
     const { dob, email, phone, fname, lname, patientID } = patientData;
     
@@ -69,56 +79,22 @@ function PatientInfo() {
     );
 }
 
-function History() {
-    const [patientData, setPatientData] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const storedPatientID = sessionStorage.getItem('patientLogInfo');
-        if (!storedPatientID) return;
-
-        const fetchMedicalData = async () => {
-            const patientId = storedPatientID;
-            const patientRef = doc(useFirestore, 'patients', patientId);
-            const medicalDataCollectionRef = collection(patientRef, 'medicalData');
-
-            try {
-                setLoading(true);
-                const medicalDataSnapshot = await getDocs(medicalDataCollectionRef);
-                const medicalData = medicalDataSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-                setPatientData(medicalData);
-            } catch (error) {
-                console.error('Error fetching medical data', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchMedicalData();
-    }, []);
-
-    console.log(patientData);
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
-    if (!patientData || patientData.length === 0) {
-        return <div>No Medical Data Available</div>;
-    }
+function History({ medicalData }) {
+    // if (!medicalData || medicalData.length === 0) {
+    //   return <div>No Medical Data Available</div>;
+    // }
 
     return (
         <div>
-            {patientData.map((data, index) => (
-                <MedicalRecordCard
-                    key={index}
-                    data={data}
-                    showTime={true} // Flag to indicate whether to show time
-                />
-                
-            ))}
+          {medicalData.map((data, index) => (
+            <MedicalRecordCard
+              key={index}
+              data={data}
+              showTime={true} // Flag to indicate whether to show time
+            />
+          ))}
         </div>
-    );
+      );
 }
 
 

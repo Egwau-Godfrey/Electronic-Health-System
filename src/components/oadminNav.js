@@ -60,12 +60,12 @@ function OAMenuBar({HAName}) {
       </div>
 
       <div className="actions-section">
-        <button className="notification-button">
+        {/* <button className="notification-button">
           <NotificationsIcon />
           {notificationsCount > 0 && ( 
             <span className="notification-badge">{notificationsCount}</span>
           )}
-        </button>
+        </button> */}
         <div> 
           <Avatar 
             alt={HAName}  
@@ -77,7 +77,7 @@ function OAMenuBar({HAName}) {
             open={open}
             onClose={handleMenuClose}
           >
-            <MenuItem onClick={handleMenuClose}>View Profile</MenuItem>
+            {/* <MenuItem onClick={handleMenuClose}>View Profile</MenuItem> */}
             {/* Add more options like Settings here if needed */}
             <MenuItem onClick={handleLogOut}>Logout</MenuItem>
           </Menu>

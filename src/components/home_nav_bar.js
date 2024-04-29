@@ -6,7 +6,7 @@ function HomeNavbar() {
         <>
             <div className="Navbar">
                 <ul className="logo">
-                    <a href="/home">EHRS</a>
+                    <a href="/home">HMS</a>
                 </ul>
                 <ul className="Navigation">
                     <li><a href="/home">Home</a></li>

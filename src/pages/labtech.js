@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useFirestore } from '../firebase/config';
-import { collection, updateDoc, getDoc,getDocs, doc, addDoc } from 'firebase/firestore';
+import { collection, updateDoc, getDoc,getDocs, doc, query, where, orderBy, addDoc } from 'firebase/firestore';
 import MenuBar from '../components/LabTechMenuBar';
 import "../css/doctors.css";
+import moment from 'moment';
+import LabTestOForm from './LabTestOForm';
 
 // Custom hook to fetch doctor data
 function useLabTechData() {
@@ -34,9 +36,63 @@ function useLabTechData() {
     return [LabTechName, hospitalID, LabTechID];
 }
 
+var patientFormData = {};
+
 function LabTech() {
     const [LabTechName, hospitalID, LabTechID] = useLabTechData();
-    const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedItem, setSelectedItem] = useState('patientInfo');
+    const [labTestFormDatas, setLabTestFormData] = useState([]);
+
+    // useEffect(() => {
+    //     const fetchLabTestFormData = async () => {
+    //         try {
+    //             const firestore = useFirestore;
+    //             const labTestFormRef = collection(firestore, 'LabTestForm');
+    //             const snapshot = await getDocs(labTestFormRef);
+    //             const formData = snapshot.docs
+    //                 .map(doc => ({ id: doc.id, ...doc.data() }))
+    //                 .filter(data => data.patientID === patientFormData.patientID); // Filter by patientID
+    //             setLabTestFormData(formData);
+    //         } catch (error) {
+    //             console.error('Error fetching lab test form data', error);
+    //         }
+    //     };
+    
+    //     fetchLabTestFormData();
+    // }, [patientFormData]);
+
+    useEffect(() => {
+        const fetchLabTestFormData = async () => {
+            try {
+                const firestore = useFirestore;
+                const labTestFormRef = collection(firestore, 'LabTestForm');
+                const querySnapshot = await getDocs(query(
+                    labTestFormRef, 
+                    where("patientID", "==", patientFormData.patientID,
+                    orderBy("DoctorSubmitRequestTime", "desc")
+                )));
+    
+                //console.log("Query Snapshot", querySnapshot.docs);
+    
+                if (!querySnapshot.empty) {
+                    const formData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    console.log("Mapped Form Data", formData);
+                    setLabTestFormData(formData);
+                    //console.log("Egwau For King", formData[0].DoctorSubmitRequestTime.toDate());
+                } else {
+                    console.log("No lab test form data found for patient ID:", patientFormData.patientID);
+                }
+            } catch (error) {
+                console.error('Error fetching lab test form data', error);
+            }
+        };
+        
+        fetchLabTestFormData();
+    }, [patientFormData]);
+    
+    
+    //console.log("Egwau For King", labTestFormDatas);
+    
 
     return (
         <div>
@@ -49,9 +105,14 @@ function LabTech() {
                     <div className='sidebar-item' onClick={() => setSelectedItem('history')}>
                         <a href="#">History</a>
                     </div>
+                    <div className='sidebar-item' onClick={() => setSelectedItem('labtestform')}>
+                        <a href="#">Lab Test Form</a>
+                    </div>
+
                 
                 </div>
                 <div className='content'>
+                    {selectedItem === 'labtestform' && <LabTestOForm labTestFormData={labTestFormDatas} LabTechID={LabTechID}/>}
                     {selectedItem === 'patientInfo' && <PatientInfo />}
                     {selectedItem === 'history' && <History />}
                 </div>
@@ -62,33 +123,39 @@ function LabTech() {
 
 function PatientInfo() {
     const [patientData, setpatientData] = useState(JSON.parse(sessionStorage.getItem('patientData')));
-    
+  
     useEffect(() => {
-        const intervalId = setInterval(() => {
-            setpatientData(JSON.parse(sessionStorage.getItem('patientData')));
-        }, 1000); // Check every second
-
-        // Clear interval on component unmount
-        return () => clearInterval(intervalId);
+      const intervalId = setInterval(() => {
+        setpatientData(JSON.parse(sessionStorage.getItem('patientData')));
+      }, 1000); // Check every second
+  
+      // Clear interval on component unmount
+      return () => clearInterval(intervalId);
     }, []);
-
+  
     if (!patientData) {
-        return <div>Search For Patient</div>;
+      return <div>Search For Patient</div>;
     }
-
+  
     const { dob, email, phone, fname, lname, patientID } = patientData;
-
+  
+    // Convert dob Date object to formatted string
+    const dobParsed = moment(dob, "MMMM DD, YYYY [at] h:mm:ss A UTCZ").utcOffset(0);
+    const age = moment().diff(dobParsed, 'years');
+  
+    patientFormData = {'age':age, 'email':email, 'phone':phone, 'fname':fname, 'lname':lname, 'patientID':patientID};
     return (
-        <div className="patient-info-card">
-            <h2>Patient Information</h2>
-            <p><strong>PatientID:</strong> {patientID}</p>
-            <p><strong>Name:</strong> {fname} {lname}</p>
-            <p><strong>Date of Birth:</strong> {dob}</p>
-            <p><strong>Email:</strong> {email}</p>
-            <p><strong>Phone:</strong> {phone}</p>
-        </div>
+      <div className="patient-info-card">
+        <h2>Patient Information</h2>
+        <p><strong>PatientID:</strong> {patientID}</p>
+        <p><strong>Name:</strong> {fname} {lname}</p>
+        <p><strong>Age:</strong> {age}</p>
+        <p><strong>Email:</strong> {email}</p>
+        <p><strong>Phone:</strong> {phone}</p>
+      </div>
     );
-}
+  }
+  
 
 
 function History() {
@@ -221,8 +288,11 @@ function MedicalRecordCard({ data, showTime, showButtons }) {
             <div className='medical-record-hidden'>
                 {showTime && (
                     <>
+                        {console.log(data.date.toDate().toLocaleString())}
                         <p>Date: {data.date.toDate().toLocaleString()} </p>
+
                         <p>LabTech Time Spent: {data.LabTechtimeSpentInMinutes} Minutes and {data.LabTechRemainingSeconds} Seconds</p>
+                        {console.log(data.LabTechtimeSpentInMinutes)}
                         
                     </>
                 )}

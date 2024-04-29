@@ -34,7 +34,7 @@ function About() {
             </div>
 
             <div className="AboutContainer">
-                <h1>About Our Electronic Health System</h1>
+                <h1>About Our Health Management System</h1>
 
                 <div className="about-section">
                     <p>

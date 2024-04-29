@@ -6,6 +6,9 @@ import { collection, updateDoc, getDoc,getDocs, doc, addDoc } from 'firebase/fir
 import MenuBar from '../components/doctorMenuBar';
 import "../css/doctors.css";
 import { colors } from '@mui/material';
+import moment from 'moment';
+import LabTestForm from './labTestForm';
+import LabTestHistory from './labTestHistory';
 
 // Custom hook to fetch doctor data
 function useDoctorData() {
@@ -37,9 +40,11 @@ function useDoctorData() {
     return [doctorName, hospitalID, doctorID];
 }
 
+var patientFormData = {};
+
 function Doctors() {
     const [doctorName, hospitalID, doctorID] = useDoctorData();
-    const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedItem, setSelectedItem] = useState('patientInfo');
 
     return (
         <div>
@@ -55,15 +60,21 @@ function Doctors() {
                     <div className='sidebar-item' onClick={() => setSelectedItem('addDiagnosis')}>
                         <a href="#">Add Diagnosis</a>
                     </div>
-                    <div className='sidebar-item' onClick={() => setSelectedItem('LabTest')}>
-                        <a href="#">Lab Test</a>
+                    <div className='sidebar-item' onClick={() => setSelectedItem('labtestform')}>
+                        <a href="#">Lab Test Form</a>
                     </div>
+                    <div className='sidebar-item' onClick={() => setSelectedItem('labtesthistory')}>
+                        <a href="#">Lab Test History</a>
+                    </div>
+
+                    
                 </div>
                 <div className='content'>
                     {selectedItem === 'patientInfo' && <PatientInfo />}
                     {selectedItem === 'history' && <History />}
+                    {selectedItem === 'labtesthistory' && <LabTestHistory patientData={patientFormData} doctorID={doctorID}/>}
+                    {selectedItem === 'labtestform' && <LabTestForm patientData={patientFormData} doctorID={doctorID}/>}
                     {selectedItem === 'addDiagnosis' && <AddDiagnosis doctorName={doctorName} hospitalID={hospitalID} doctorID={doctorID} />}
-                    {selectedItem === 'LabTest' && <LabTest />}
                 </div>
             </div>
         </div>
@@ -71,7 +82,9 @@ function Doctors() {
 }
 
 
+
 function PatientInfo() {
+    
     const [docData, setDocData] = useState(JSON.parse(sessionStorage.getItem('docData')));
     
     useEffect(() => {
@@ -89,12 +102,19 @@ function PatientInfo() {
 
     const { dob, email, phone, fname, lname, patientID } = docData;
 
+    const dobParsed = moment(dob, "MMMM DD, YYYY [at] h:mm:ss A UTCZ").utcOffset(0);
+    const age = moment().diff(dobParsed, 'years');
+    console.log(age);
+
+
+    patientFormData = {'age':age, 'email':email, 'phone':phone, 'fname':fname, 'lname':lname, 'patientID':patientID};
+
     return (
         <div className="patient-info-card">
             <h2>Patient Information</h2>
             <p><strong>PatientID:</strong> {patientID}</p>
             <p><strong>Name:</strong> {fname} {lname}</p>
-            <p><strong>Date of Birth:</strong> {dob}</p>
+            <p><strong>Age:</strong> {age}</p>
             <p><strong>Email:</strong> {email}</p>
             <p><strong>Phone:</strong> {phone}</p>
         </div>
@@ -374,21 +394,13 @@ function AddDiagnosis() {
                 </div>
                 <div className="form-row-form-actions"> 
                     <input type="submit" value="Submit" className="button primary" />
-                    <input type="reset" value="Clear" className="button" onClick={() => {setDoctorNotes(''); setDiagnosis('');}} /> 
-                    <input type="submit" value="Request Test" className="button" /> 
                 </div>
             </form>
         </div>
     );
 }
+ 
+  
 
-function LabTest() {
-    return (
-        <div>
-            {/* Your patient info goes here */}
-            test
-        </div>
-    );
-}
 
 export default Doctors;
