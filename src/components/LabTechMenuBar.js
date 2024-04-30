@@ -33,6 +33,7 @@ async function handleSearch(event) {
     sessionStorage.removeItem('patientData');
     sessionStorage.removeItem('patientDocName');
     sessionStorage.removeItem('docFullName');
+    sessionStorage.removeItem('LabdataLoadTime');
 
     // Store the new document data in sessionStorage
     
@@ -141,7 +142,7 @@ function MenuBar({ LabTechName }) {
   return (
     <nav className="menu-bar">
       <div className="brand-section">
-        <span className="brand-logo">{/* Optional - Add your app's logo or title */}</span>
+        <span className="brand-logo">{/* Add our app's logo or title */}</span>
         <span className="doctor-name">{`Welcome, ${LabTechName}`}</span>
       </div>
 

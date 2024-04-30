@@ -934,7 +934,7 @@ useEffect(() => {
   return (
     <div>
       <h2>Diagnosis Counts</h2>
-      <ul>
+      {/* <ul>
         {Object.entries(counts).map(([diagnosis, count]) => (
           <li key={diagnosis}>{diagnosis}: {count}</li>
         ))}
@@ -942,7 +942,7 @@ useEffect(() => {
 
       <br></br>
       <br></br>
-      <br></br>
+      <br></br> */}
 
       <div>
         <canvas ref={chartRef} />

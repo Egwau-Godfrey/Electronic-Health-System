@@ -32,6 +32,7 @@ async function handleSearch(event) {
     sessionStorage.removeItem('docData');
     sessionStorage.removeItem('docName');
     sessionStorage.removeItem('docFullName');
+    sessionStorage.removeItem('dataLoadTime');
 
     // Store the new document data in sessionStorage
     
